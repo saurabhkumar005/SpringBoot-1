@@ -13,6 +13,7 @@ public class StudentController {
     public StudentController(StudentService studentService){
         this.studentService = studentService;
     }
+
     @PostMapping("/create")
     public ResponseEntity<Student> storeStudent(@RequestBody Student student){
         Student result = studentService.studentValidator(student);
