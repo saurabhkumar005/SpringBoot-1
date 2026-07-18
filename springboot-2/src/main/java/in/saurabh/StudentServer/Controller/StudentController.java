@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/student")
 public class StudentController {
 
@@ -31,7 +32,7 @@ public class StudentController {
     public ResponseEntity<?> updateStudent(@PathVariable int id, @RequestBody Student student){
         Student res = studentService.updateStudentByID(id, student);
         if(res==null){
-            ResponseEntity.status(400).body("Invalid data, Updation Failed");
+            return ResponseEntity.status(400).body("Invalid data, Updation Failed");
         }
         return ResponseEntity.status(200).body(res);
     }
