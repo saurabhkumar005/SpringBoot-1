@@ -2,6 +2,8 @@ package in.saurabh.StudentServer.Controller;
 
 import in.saurabh.StudentServer.DTO.CreateStudentRequestDTO;
 import in.saurabh.StudentServer.DTO.CreateStudentResponseDTO;
+import in.saurabh.StudentServer.DTO.UpdateStudentRequestDTO;
+import in.saurabh.StudentServer.DTO.UpdateStudentResponseDTO;
 import in.saurabh.StudentServer.Service.StudentService;
 import in.saurabh.StudentServer.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +43,8 @@ public class StudentController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateStudent(@PathVariable int id, @RequestBody Student student){
-        Student res = studentService.updateStudentByID(id, student);
+    public ResponseEntity<?> updateStudent(@PathVariable int id, @RequestBody UpdateStudentRequestDTO student){
+        UpdateStudentResponseDTO res = studentService.updateStudentByID(id, student);
         if(res==null){
             return ResponseEntity.status(400).body("Invalid data, Updation Failed");
         }

@@ -2,6 +2,8 @@ package in.saurabh.StudentServer.Service;
 
 import in.saurabh.StudentServer.DTO.CreateStudentRequestDTO;
 import in.saurabh.StudentServer.DTO.CreateStudentResponseDTO;
+import in.saurabh.StudentServer.DTO.UpdateStudentRequestDTO;
+import in.saurabh.StudentServer.DTO.UpdateStudentResponseDTO;
 import in.saurabh.StudentServer.Entity.Student;
 import in.saurabh.StudentServer.Repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -35,7 +37,7 @@ public class StudentService {
 //    }
 
 
-    //using DTO
+    //POST - using DTO
     public CreateStudentResponseDTO studentValidator(CreateStudentRequestDTO student){
         Student student1 = mapToStudent(student);
         studentRepository.save(student1);
@@ -55,26 +57,56 @@ public class StudentService {
 
     }
 
-    //update route
+
 
     public Student getStudentByID(int id){
         return studentRepository.findById(id).orElse(null);
     }
 
-    public Student updateStudentByID(int id, Student student){
+    //update route
+//
+//    public Student updateStudentByID(int id, Student student){
+//        Student oldStudent = studentRepository.findById(id).orElse(null);
+//        if(oldStudent==null){
+//            return null;
+//        }
+//        oldStudent.setAge(student.getAge());
+//        oldStudent.setDepartment(student.getDepartment());
+//        oldStudent.setName(student.getName());
+//        oldStudent.setUpdatedAt(LocalDateTime.now());
+//
+//        Student res = studentRepository.save(oldStudent);
+//        return res;
+//
+//    }
+
+    //Update using DTO
+
+
+    public UpdateStudentResponseDTO updateStudentByID(int id, UpdateStudentRequestDTO student){
         Student oldStudent = studentRepository.findById(id).orElse(null);
         if(oldStudent==null){
             return null;
         }
-        oldStudent.setAge(student.getAge());
-        oldStudent.setDepartment(student.getDepartment());
+
+        //Reqquest mapping
         oldStudent.setName(student.getName());
+        oldStudent.setAge(student.getAge());
         oldStudent.setUpdatedAt(LocalDateTime.now());
 
-        Student res = studentRepository.save(oldStudent);
-        return res;
+        //Save Updates to database
+        studentRepository.save(oldStudent);
 
+        //Response Creation and mapping
+        UpdateStudentResponseDTO res = new UpdateStudentResponseDTO();
+        res.setAge(oldStudent.getAge());
+        res.setName(oldStudent.getName());
+        res.setId(oldStudent.getId());
+        res.setDepartment(oldStudent.getDepartment());
+
+        return res;
     }
+
 
     public Student deleteStudentByID(int id){
         Student res = studentRepository.findById(id).orElse(null);
