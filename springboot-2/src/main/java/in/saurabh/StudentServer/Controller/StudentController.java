@@ -1,5 +1,7 @@
 package in.saurabh.StudentServer.Controller;
 
+import in.saurabh.StudentServer.DTO.CreateStudentRequestDTO;
+import in.saurabh.StudentServer.DTO.CreateStudentResponseDTO;
 import in.saurabh.StudentServer.Service.StudentService;
 import in.saurabh.StudentServer.Entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,19 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+//    @PostMapping("/create")
+//    public ResponseEntity<?> storeStudent(@RequestBody Student student){
+//        Student result = studentService.studentValidator(student);
+//
+//        if(result == null){
+//            return ResponseEntity.status(400).body("Invalid Input. Student data Not created!");
+//        }
+//        return ResponseEntity.status(201).body(result);
+//    }
+
     @PostMapping("/create")
-    public ResponseEntity<?> storeStudent(@RequestBody Student student){
-        Student result = studentService.studentValidator(student);
+    public ResponseEntity<?> storeStudent(@RequestBody CreateStudentRequestDTO student){
+        CreateStudentResponseDTO result = studentService.studentValidator(student);
 
         if(result == null){
             return ResponseEntity.status(400).body("Invalid Input. Student data Not created!");
