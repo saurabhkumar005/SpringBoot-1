@@ -14,6 +14,18 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalException {
 
+    @ExceptionHandler(EmailAlredyExistException.class)
+    public ResponseEntity<ExceptionResponseDTO> handleEmailExistException(EmailAlredyExistException e, HttpServletRequest req){
+        ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                e.getMessage(),
+                req.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ExceptionResponseDTO> handleRuntimeExecutionException(RuntimeException e, HttpServletRequest req){
         ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(

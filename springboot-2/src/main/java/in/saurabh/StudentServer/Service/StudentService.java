@@ -5,6 +5,7 @@ import in.saurabh.StudentServer.DTO.CreateStudentResponseDTO;
 import in.saurabh.StudentServer.DTO.UpdateStudentRequestDTO;
 import in.saurabh.StudentServer.DTO.UpdateStudentResponseDTO;
 import in.saurabh.StudentServer.Entity.Student;
+import in.saurabh.StudentServer.Exception.EmailAlredyExistException;
 import in.saurabh.StudentServer.Repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,9 @@ public class StudentService {
 
     //POST - using DTO
     public CreateStudentResponseDTO studentValidator(CreateStudentRequestDTO student){
+        if(studentRepository.existsByEmail(student.getEmail())){
+            throw new EmailAlredyExistException("Email Already Registered! Please try login.");
+        }
         Student student1 = mapToStudent(student);
         studentRepository.save(student1);
         return mapToResponseDTO(student1);
@@ -56,7 +60,6 @@ public class StudentService {
         student1.setEmail(student.getEmail());
 
         return student1;
-
     }
 
 
